@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTRA.FI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-main: #c1ff33;
+            --bg-card: #000000;
+            --bg-input: #111111;
+            --border: rgba(255,255,255,0.15);
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --text-dark: #000000;
+            --accent: #c1ff33;
+            --btn-hover: #a8e625;
+            --coming-soon: #ff9f1c;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html, body {
+            background: var(--bg-main);
+            color: var(--text-dark);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 32px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.15);
+        }
+
+        .brand {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+        }
+
+        nav {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-dark);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--text-dark);
+            transition: width 0.2s ease;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
+
+        .btn {
+            background: var(--text-dark);
+            color: var(--accent);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #222222;
+        }
+
+        .btn-disabled {
+            background: #333333;
+            color: #666666;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--text-dark);
+            font-size: 16px;
+            padding: 14px 32px;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .btn-accent:hover {
+            background: var(--btn-hover);
+        }
+
+        .btn-accent-disabled {
+            background: #888888;
+            color: #444444;
+            cursor: not-allowed;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 112px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .hero p {
+            font-size: 26px;
+            color: #333333;
+            max-width: 760px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        .coming-soon-badge {
+            display: inline-block;
+            background: var(--coming-soon);
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section */
+        .section {
+            padding: 80px 0;
+            border-top: 1px solid rgba(0,0,0,0.15);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            text-transform: uppercase;
+        }
+
+        .section-header p {
+            font-size: 20px;
+            color: #333333;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 520px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .form-container.soon {
+            opacity: 0.8;
+        }
+
+        .form-container.soon::before {
+            content: 'COMING SOON';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--coming-soon);
+            color: var(--text-dark);
+            padding: 6px 40px;
+            font-size: 12px;
+            font-weight: 800;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+
+        .form-title {
+            color: var(--accent);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:disabled, .form-group select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent);
+        }
+
+        .info-box {
+            background: rgba(193, 255, 51, 0.1);
+            border: 1px solid rgba(193, 255, 51, 0.3);
+            border-radius: 10px;
+            padding: 16px;
+            margin: 24px 0;
+        }
+
+        .info-box p {
+            color: var(--accent);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Swap Divider */
+        .swap-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 16px 0;
+        }
+
+        .swap-divider span {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        /* Earn Grid */
+        .earn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .earn-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .earn-card .soon-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--coming-soon);
+            color: var(--text-dark);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .earn-card h4 {
+            color: var(--accent);
+            font-size: 20px;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .earn-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .earn-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(0,0,0,0.15);
+            padding: 48px 0;
+            margin-top: 32px;
+            text-align: center;
+            color: #333333;
+            font-size: 14px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 16px;
+            transition: opacity 0.2s ease;
+        }
+
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page {
+                padding: 0 20px;
+            }
+            nav {
+                gap: 20px;
+            }
+            .hero h1 {
+                font-size: 40px;
+            }
+            .section-header h2 {
+                font-size: 28px;
+            }
+            .form-container {
+                padding: 28px 20px;
+            }
+            .form-container.soon::before {
+                right: -35px;
+                padding: 5px 35px;
+                font-size: 10px;
+            }
+            .earn-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div class="brand">ULTRA.FI</div>
+            <nav>
+                <a href="#launch" class="active">Launch</a>
+                <a href="#trade">Trade</a>
+                <a href="#earn">Earn</a>
+                <a href="#" class="btn btn-disabled">App</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <h1>Always First. Always Degen.</h1>
+                <p>We launch on new chains before anyone else. Even before the chains do.</p>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </section>
+
+            <!-- Launch Section -->
+            <section class="section" id="launch">
+                <div class="section-header">
+                    <h2>Launch Your Own Token</h2>
+                    <p>Deploy your memecoin or project in seconds — fully featured, coming soon.</p>
+                </div>
+
+                <div class="form-container soon">
+                    <h3 class="form-title">Token Launch Form</h3>
+
+                    <div class="form-group">
+                        <label>Token Name (e.g. Ultra Coin)</label>
+                        <input type="text" placeholder="Enter your token name" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Token Symbol (e.g. ULT)</label>
+                        <input type="text" placeholder="3-6 uppercase letters" maxlength="6" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Supply</label>
+                        <input type="number" placeholder="e.g. 1000000000" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Blockchain</label>
+                        <select disabled>
+                            <option>Robinhood Chain</option>
+                            <option>Ethereum</option>
+                            <option>Base</option>
+                            <option>Solana</option>
+                        </select>
+                    </div>
+
+                    <div class="info-box">
+                        <p>✅ Auto liquidity setup & locked<br>✅ Fully transparent fees<br>✅ Creator fees enabled automatically</p>
+                    </div>
+
+                    <button class="btn btn-accent btn-accent-disabled">🚀 Launch Token</button>
+                </div>
+            </section>
+
+            <!-- Trade Section -->
+            <section class="section" id="trade">
+                <div class="section-header">
+                    <h2>Swap Assets</h2>
+                    <p>Lightning-fast swaps with the lowest fees across all supported chains.</p>
+                </div>
+
+                <div class="form-container soon">
+                    <h3 class="form-title">Swap Interface</h3>
+
+                    <div class="form-group">
+                        <label>You Pay</label>
+                        <select disabled>
+                            <option>ETH - Ethereum</option>
+                            <option>RHOD - Robinhood</option>
+                            <option>USDC - USD Coin</option>
+                        </select>
+                        <input type="number" placeholder="Enter amount" style="margin-top: 10px;" disabled>
+                    </div>
+
+                    <div class="swap-divider">
+                        <span>↓</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label>You Receive</label>
+                        <select disabled>
+                            <option>Select token...</option>
+                        </select>
+                        <input type="number" placeholder="Estimated output" style="margin-top: 10px;" readonly disabled>
+                    </div>
+
+                    <div class="info-box">
+                        <p>⚡ Completed in under 10 seconds<br>💸 Only 0.1% platform fee<br>🛡️ Max slippage protection</p>
+                    </div>
+
+                    <button class="btn btn-accent btn-accent-disabled">Swap Now</button>
+                </div>
+            </section>
+
+            <!-- Earn Section -->
+            <section class="section" id="earn">
+                <div class="section-header">
+                    <h2>Earn Passive Income</h2>
+                    <p>Rewards for creators, liquidity providers, and stakers — launching soon.</p>
+                </div>
+
+                <div class="earn-grid">
+                    <div class="earn-card">
+                        <span class="soon-tag">Coming Soon</span>
+                        <h4>Creator Fees</h4>
+                        <p>Earn from every trade on your launched tokens</p>
+                        <div class="earn-value">—</div>
+                        <button class="btn btn-disabled">View My Tokens</button>
+                    </div>
+
+                    <div class="earn-card">
+                        <span class="soon-tag">Coming Soon</span>
+                        <h4>Stake & LP Rewards</h4>
+                        <p>Earn yield by providing liquidity or staking</p>
+                        <div class="earn-value">—</div>
+                        <button class="btn btn-disabled">Start Earning</button>
+                    </div>
+                </div>
+
+                <div class="form-container soon" style="margin-top: 32px;">
+                    <h3 class="form-title">Check Rewards</h3>
+                    <div class="form-group">
+                        <label>Token Contract Address</label>
+                        <input type="text" placeholder="Paste your token address" disabled>
+                    </div>
+                    <button class="btn btn-accent btn-accent-disabled">Check Earnings</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <a href="https://twitter.com/ultradotfi" target="_blank" rel="noopener noreferrer" class="social-link">
+                𝕏 Follow us @ultradotfi
+            </a>
+            <br>
+            © 2026 ULTRA.FI. All rights reserved. Built for the bold.
+        </footer>
+    </div>
+</body>
+</html>
